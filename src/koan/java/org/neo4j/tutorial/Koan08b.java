@@ -46,13 +46,6 @@ public class Koan08b
         String cql = null;
 
         // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        cql = "start daleks = node:species( species = 'Dalek'), rose = node:characters( character= 'Rose Tyler'), tennant = node:actors( actor = 'David Tennant')";
-        cql += "match (tennant)-[:APPEARED_IN]->(ep), (rose)-[:APPEARED_IN]->(ep), (daleks)-[:APPEARED_IN]->(ep)";
-        cql += "return ep";
-
-        // SNIPPET_END
 
         Query query = parser.parse( cql );
         ExecutionResult result = engine.execute( query );

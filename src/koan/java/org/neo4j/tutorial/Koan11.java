@@ -61,12 +61,6 @@ public class Koan11
         String response = null;
 
         // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        WebResource resource = client.resource( universe.theDoctor().get( "incoming_relationships" ) + "/ENEMY_OF" );
-        response = resource.accept( MediaType.APPLICATION_JSON ).get( String.class );
-
-        // SNIPPET_END
 
         List<Map<String, Object>> json = JsonHelper.jsonToList( response );
         int numberOfEnemiesOfTheDoctor = 146;
@@ -84,25 +78,6 @@ public class Koan11
         TraversalDescription traversal = new TraversalDescription();
 
         // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        traversal.setOrder( "depth_first" );
-        traversal.setUniqueness( "node_path" );
-        traversal.setRelationships(
-                new RelationshipDescription( "PLAYED", RelationshipDescription.IN ),
-                new RelationshipDescription( "APPEARED_IN", RelationshipDescription.OUT ) );
-        traversal.setReturnFilter( "position.endNode().hasProperty('title') && position.endNode().getProperty('title').contains('Invasion')" );
-        traversal.setMaxDepth( 3 );
-
-        WebResource resource = client.resource( universe.theDoctor().get( "traverse" ).toString().replace( "{returnType}", "fullpath" ) );
-        String requestJson = traversal.toJson();
-
-        response = resource
-                .accept( MediaType.APPLICATION_JSON )
-                .type( MediaType.APPLICATION_JSON )
-                .post( ClientResponse.class, requestJson );
-
-        // SNIPPET_END
 
         String responseJson = response.getEntity( String.class );
 
@@ -135,23 +110,6 @@ public class Koan11
         BatchCommandBuilder cmds = new BatchCommandBuilder();
 
         // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        cmds
-                .createNode( 0, MapUtil.stringMap( "incarnation", "First Doctor" ) )
-                .createNode( 1, MapUtil.stringMap( "incarnation", "Second Doctor" ) )
-                .createRelationship( "{0}/relationships", theDoctorUri, INCARNATION_OF )
-                .createRelationship( "{1}/relationships", theDoctorUri, INCARNATION_OF )
-                .createRelationship( williamHartnellJson.get( "create_relationship" ).toString(), "{0}", PLAYED )
-                .createRelationship( richardHurdnallJson.get( "create_relationship" ).toString(), "{0}", PLAYED )
-                .createRelationship( patrickTroughtonJson.get( "create_relationship" ).toString(), "{1}", PLAYED );
-
-        WebResource resource = client.resource( "http://localhost:7474/db/data/batch" );
-        resource.accept( MediaType.APPLICATION_JSON )
-                .type( MediaType.APPLICATION_JSON )
-                .post( String.class, cmds.build() );
-
-        // SNIPPET_END
 
         assertFirstAndSecondDoctorCreatedAndLinkedToActors( universe.getServer().getDatabase().graph );
 

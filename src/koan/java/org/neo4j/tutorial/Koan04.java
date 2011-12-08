@@ -46,15 +46,6 @@ public class Koan04
         AutoIndexer<Node> charactersAutoIndex = null;
 
         // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        charactersAutoIndex = universe.getDatabase()
-                .index()
-                .getNodeAutoIndexer();
-        charactersAutoIndex.startAutoIndexingProperty( "character-name" );
-        charactersAutoIndex.setEnabled( true );
-
-        // SNIPPET_END
 
         Transaction tx = universe.getDatabase()
                 .beginTx();

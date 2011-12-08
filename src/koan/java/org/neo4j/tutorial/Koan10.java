@@ -43,38 +43,6 @@ public class Koan10
         HashSet<Node> cybermenEpisodes = new HashSet<Node>();
 
         // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        final PatternNode theDoctor = new PatternNode();
-        theDoctor.setAssociation( universe.theDoctor() );
-
-        final PatternNode anEpisode = new PatternNode();
-        anEpisode.addPropertyConstraint( "title", CommonValueMatchers.has() );
-        anEpisode.addPropertyConstraint( "episode", CommonValueMatchers.has() );
-
-        final PatternNode aDoctorActor = new PatternNode();
-        aDoctorActor.createRelationshipTo( theDoctor, DoctorWhoRelationships.PLAYED );
-        aDoctorActor.createRelationshipTo( anEpisode, DoctorWhoRelationships.APPEARED_IN );
-        aDoctorActor.addPropertyConstraint( "actor", CommonValueMatchers.has() );
-
-        final PatternNode theCybermen = new PatternNode();
-        theCybermen.setAssociation( universe.getDatabase()
-                .index()
-                .forNodes( "species" )
-                .get( "species", "Cyberman" )
-                .getSingle() );
-        theCybermen.createRelationshipTo( anEpisode, DoctorWhoRelationships.APPEARED_IN );
-        theCybermen.createRelationshipTo( theDoctor, DoctorWhoRelationships.ENEMY_OF );
-
-        PatternMatcher matcher = PatternMatcher.getMatcher();
-        final Iterable<PatternMatch> matches = matcher.match( theDoctor, universe.theDoctor() );
-
-        for ( PatternMatch pm : matches )
-        {
-            cybermenEpisodes.add( pm.getNodeFor( anEpisode ) );
-        }
-
-        // SNIPPET_END
 
         assertThat( cybermenEpisodes, containsOnlyTitles( knownCybermenTitles() ) );
     }
@@ -97,34 +65,6 @@ public class Koan10
                 .getSingle();
 
         // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        final PatternNode theDoctor = new PatternNode();
-        theDoctor.setAssociation( universe.theDoctor() );
-
-        final PatternNode anEpisode = new PatternNode();
-        anEpisode.addPropertyConstraint( "title", CommonValueMatchers.has() );
-        anEpisode.addPropertyConstraint( "episode", CommonValueMatchers.has() );
-
-        final PatternNode aDoctorActor = new PatternNode();
-        aDoctorActor.createRelationshipTo( theDoctor, DoctorWhoRelationships.PLAYED );
-        aDoctorActor.createRelationshipTo( anEpisode, DoctorWhoRelationships.APPEARED_IN );
-        aDoctorActor.addPropertyConstraint( "actor", CommonValueMatchers.has() );
-
-        final PatternNode theCybermen = new PatternNode();
-        theCybermen.setAssociation( cybermenNode );
-        theCybermen.createRelationshipTo( anEpisode, DoctorWhoRelationships.APPEARED_IN );
-        theCybermen.createRelationshipTo( theDoctor, DoctorWhoRelationships.ENEMY_OF );
-
-        PatternMatcher matcher = PatternMatcher.getMatcher();
-        final Iterable<PatternMatch> matches = matcher.match( theDoctor, universe.theDoctor() );
-
-        for ( PatternMatch pm : matches )
-        {
-            doctorActors.add( pm.getNodeFor( aDoctorActor ) );
-        }
-
-        // SNIPPET_END
 
         assertThat(
                 doctorActors,
@@ -148,38 +88,6 @@ public class Koan10
                 .getSingle();
 
         // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        final PatternNode theDoctor = new PatternNode();
-        theDoctor.setAssociation( universe.theDoctor() );
-
-        final PatternNode ecclestone = new PatternNode();
-        ecclestone.setAssociation( ninthDoctorNode );
-
-        final PatternNode roseTyler = new PatternNode();
-        roseTyler.setAssociation( roseTylerNode );
-
-        final PatternNode anEpisode = new PatternNode();
-        anEpisode.addPropertyConstraint( "title", CommonValueMatchers.has() );
-        anEpisode.addPropertyConstraint( "episode", CommonValueMatchers.has() );
-
-        final PatternNode anEnemySpecies = new PatternNode();
-        anEnemySpecies.addPropertyConstraint( "species", CommonValueMatchers.has() );
-
-        ecclestone.createRelationshipTo( anEpisode, DoctorWhoRelationships.APPEARED_IN );
-        roseTyler.createRelationshipTo( anEpisode, DoctorWhoRelationships.APPEARED_IN );
-        anEnemySpecies.createRelationshipTo( anEpisode, DoctorWhoRelationships.APPEARED_IN );
-        anEnemySpecies.createRelationshipTo( theDoctor, DoctorWhoRelationships.ENEMY_OF );
-
-        PatternMatcher matcher = PatternMatcher.getMatcher();
-        final Iterable<PatternMatch> matches = matcher.match( theDoctor, universe.theDoctor() );
-
-        for ( PatternMatch pm : matches )
-        {
-            enemySpeciesRoseAndTheNinthDoctorEncountered.add( pm.getNodeFor( anEnemySpecies ) );
-        }
-
-        // SNIPPET_END
 
         assertThat( enemySpeciesRoseAndTheNinthDoctorEncountered, containsOnlySpecies( "Dalek", "Slitheen", "Auton" ) );
     }

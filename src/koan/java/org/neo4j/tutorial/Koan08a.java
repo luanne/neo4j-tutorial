@@ -43,11 +43,6 @@ public class Koan08a
         String cql = null;
 
         // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        cql = "start daleks = node:species(species ='Dalek') match (daleks)-[:APPEARED_IN]->(episode) RETURN episode";
-
-        // SNIPPET_END
 
         Query query = parser.parse( cql );
         ExecutionResult result = engine.execute( query );

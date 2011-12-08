@@ -48,22 +48,6 @@ public class Koan08c
         ExecutionResult result = null;
 
         // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        //Not every prop part can be identified with a prop - e.g. the Exhibition skirt
-        //As a result, prop.prop will not exist for every prop node
-        //So, we must use prop.prop? - this fills the prop.prop column with a <null>
-        //value for prop parts with no identifiable prop
-
-        cql = "start dalek  = node:species( species = 'Dalek') ";
-        cql += "match (dalek)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop) ";
-        cql += "return prop.prop?, episode.episode order by episode.episode desc skip 4 limit 1";
-
-        Query query = parser.parse( cql );
-        result = engine.execute( query );
-
-
-        // SNIPPET_END
 
         assertEquals( "Supreme Dalek", result.javaColumnAs( "prop.prop" ).next() );
     }
@@ -77,13 +61,6 @@ public class Koan08c
         String cql = null;
 
         // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        cql = "start daleks= node:species(species = 'Dalek') match (daleks)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop)"
-                + "-[:COMPOSED_OF]->(part)-[:ORIGINAL_PROP]->(originalprop) return originalprop.prop, part.part, count(episode.title)"
-                + " order by count (episode.title) desc limit 1";
-
-        // SNIPPET_END
 
         Query query = parser.parse( cql );
         ExecutionResult result = engine.execute( query );
